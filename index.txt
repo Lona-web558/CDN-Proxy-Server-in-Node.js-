@@ -1,0 +1,48 @@
+A **CDN Proxy Server** is an intermediary server that sits between clients (users) and Content Delivery Networks (CDNs). Here's what it does and why it's useful:
+
+## What It Does
+
+The proxy server intercepts requests for CDN resources (like JavaScript libraries, CSS files, fonts, images) and either:
+1. Serves them from its own cache if available
+2. Fetches them from the actual CDN and caches them for future requests
+
+## Common Use Cases
+
+**Performance Optimization**
+- Reduces latency by caching frequently used resources locally
+- Decreases bandwidth usage by serving cached content
+- Faster response times for repeated requests
+
+**Network Control**
+- Useful in corporate/restricted environments where direct CDN access is blocked
+- Allows filtering and monitoring of CDN traffic
+- Single point of control for external resource access
+
+**Development & Testing**
+- Provides consistent resource versions during development
+- Allows working offline with previously cached resources
+- Helps simulate CDN behavior locally
+
+**Cost Reduction**
+- Minimizes repeated downloads from CDNs
+- Reduces bandwidth costs in metered environments
+
+**Security & Privacy**
+- Acts as a gateway to whitelist/blacklist specific CDN domains
+- Can scan resources for malicious content before serving
+- Prevents direct tracking from third-party CDNs
+
+## How The Code I Wrote Works
+
+In the server I created, when you request:
+```
+http://localhost:3000/?url=https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
+```
+
+The proxy:
+1. Checks if it has jQuery cached
+2. If yes → serves from cache (fast)
+3. If no → downloads from jsDelivr, caches it, then serves it
+4. Future requests get the cached version for 1 hour
+
+This is particularly useful for development environments or situations where you want more control over external dependencies.
